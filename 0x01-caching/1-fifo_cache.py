@@ -16,9 +16,10 @@ class FIFOCache(BaseCaching):
         if item is None or key is None:
             pass
         else:
-            isInCache = self.cache_data.get(key) is not None
+            isInCache = self.cache_data.get(key)
             cache_keys = list(self.cache_data.keys())
-            if len(cache_keys) >= BaseCaching.MAX_ITEMS and isInCache:
+            cond = isInCache is not None
+            if len(cache_keys) >= BaseCaching.MAX_ITEMS and cond:
                 self.cache_data.__delitem__(cache_keys[0])
                 self.cache_data.update({key: item})
                 print("DISCARD: {}".format(cache_keys[0]))
