@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-BasicCaching = __import__('base_caching').BaseCaching
+BaseCaching = __import__('base_caching').BaseCaching
 
 
-class BasicCache(BasicCaching):
+class BasicCache(BaseCaching):
     """BasicCache
-    - Inherits from BasicCaching class
+    - Inherits from BaseCaching class
     - Implemented the void functions
     """
 
     def __init__(self):
-        BasicCaching.__init__(self)
+        BaseCaching.__init__(self)
 
     def put(self, key, item):
         """Add an item to cache"""
