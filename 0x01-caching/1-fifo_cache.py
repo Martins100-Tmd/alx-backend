@@ -1,33 +1,33 @@
 #!/usr/bin/env python3
+"""First-In First-Out caching module.
 """
-Task 1's module
-"""
-BaseCaching = __import__("base_caching").BaseCaching
+from collections import OrderedDict
+
+from base_caching import BaseCaching
 
 
 class FIFOCache(BaseCaching):
-    """Fifo class"""
-
+    """Represents an object that allows storing and
+    retrieving items from a dictionary with a FIFO
+    removal mechanism when the limit is reached.
+    """
     def __init__(self):
-        BaseCaching.__init__(self)
+        """Initializes the cache.
+        """
+        super().__init__()
+        self.cache_data = OrderedDict()
 
     def put(self, key, item):
-        """Add an item to cache"""
-        if item is None or key is None:
-            pass
-        else:
-            isInCache = self.cache_data.get(key)
-            cache_keys = list(self.cache_data.keys())
-            cond = isInCache is not None
-            if len(cache_keys) >= BaseCaching.MAX_ITEMS and cond:
-                self.cache_data.__delitem__(cache_keys[0])
-                self.cache_data.update({key: item})
-                print("DISCARD: {}".format(cache_keys[0]))
-            else:
-                self.cache_data.update({key: item})
+        """Adds an item in the cache.
+        """
+        if key is None or item is None:
+            return
+        self.cache_data[key] = item
+        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+            first_key, _ = self.cache_data.popitem(False)
+            print("DISCARD:", first_key)
 
     def get(self, key):
-        """Get an item from cache"""
-        if self.cache_data.get(key) is not None:
-            return self.cache_data.get(key)
-        return None
+        """Retrieves an item by key.
+        """
+        return self.cache_data.get(key, None)
